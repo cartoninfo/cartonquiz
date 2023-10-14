@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carton</title>
+</head>
+<body>
+<h1>Здравствуйте! Это проект Carton, и мы развиваем свои услуги в сфере траспортировки легких и средних грузов с помощью тележек.
+Заполните форму ниже для улучшения наших услуг.</h1>
+<form id="nameForm">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="phone">Номер телефона:</label>
+    <input type="phone" id="phone" name="phone" required>
+    <br>
+    <input type="button" value="Отправить" onclick="sendToTelegram()">
+</form>
+<script>
+        function sendToTelegram() {
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+
+            // Форматирование времени, чтобы иметь два знака для часов, минут и секунд
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+
+            var formattedTime = hours + ":" + minutes + ":" + seconds;
+
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+            var chatId = "-1001908497605"; // Замените на ID вашего канала или чата в Telegram
+            var botToken = "6638911099:AAEoEKs4vkd9mo6B9enxqs24330utN2PpGU"; // Замените на токен вашего бота
+
+            var url = "https://api.telegram.org/bot" + botToken + "/sendMessage";
+            var message = "Имя: " + name +
+                          "\nТелефон: " + phone +
+                           "\nВремя отправки: " + formattedTime;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            var data = "chat_id=" + chatId + "&text=" + message;
+            xhr.send(data);
+
+            // Очистить поле ввода после отправки
+            document.getElementById("name").value = "";
+        }
+    </script>
+</body>
+</html>
